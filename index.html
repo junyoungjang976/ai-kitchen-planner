@@ -34,20 +34,16 @@
       };
       const prompt = `업종: ${data.업종}, 평수: ${data.평수}, 구조: ${data.구조}, 기기: ${data.기기.join(', ')}. 이 조건에 맞는 상업용 주방 설계안을 설명해줘.`;
 
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      const response = await fetch("/api/generate", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": "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"
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          model: "gpt-3.5-turbo",
-          messages: [{ role: "user", content: prompt }]
-        })
+        body: JSON.stringify({ prompt })
       });
 
       const result = await response.json();
-      document.getElementById('result').textContent = result.choices?.[0]?.message?.content || "결과 없음";
+      document.getElementById('result').textContent = result.text || "결과 없음";
     });
   </script>
 </body>
